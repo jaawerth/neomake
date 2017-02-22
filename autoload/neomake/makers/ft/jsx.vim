@@ -10,7 +10,7 @@ endfunction
 
 function! neomake#makers#ft#jsx#jshint()
     let maker = neomake#makers#ft#javascript#jshint()
-    let maker.exe = 'jsxhint'
+    let maker.exe = nomake#util#node_which('jsxhint')
     return maker
 endfunction
 

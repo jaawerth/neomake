@@ -17,6 +17,7 @@ endfunction
 
 function! neomake#makers#ft#javascript#jshint() abort
     return {
+        \ 'exe': neomake#utils#node_which('jshint'),
         \ 'args': ['--verbose'],
         \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
         \ }
@@ -24,6 +25,7 @@ endfunction
 
 function! neomake#makers#ft#javascript#jscs() abort
     return {
+        \ 'exe': neomake#utils#node_which('jscs'),
         \ 'args': ['--no-colors', '--reporter', 'inline'],
         \ 'errorformat': '%E%f: line %l\, col %c\, %m',
         \ }
@@ -31,6 +33,7 @@ endfunction
 
 function! neomake#makers#ft#javascript#eslint() abort
     return {
+        \ 'exe': neomake#utils#node_which('eslint'),
         \ 'args': ['-f', 'compact'],
         \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
         \ '%W%f: line %l\, col %c\, Warning - %m'
@@ -39,6 +42,7 @@ endfunction
 
 function! neomake#makers#ft#javascript#eslint_d() abort
     return {
+        \ 'exe': neomake#utils#node_which('eslint_d'),
         \ 'args': ['-f', 'compact'],
         \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
         \ '%W%f: line %l\, col %c\, Warning - %m'
@@ -73,6 +77,7 @@ endfunction
 
 function! neomake#makers#ft#javascript#flow() abort
     return {
+        \ 'exe': neomake#utils#node_which('flow'),
         \ 'args': ['--from=vim', '--show-all-errors'],
         \ 'errorformat': '%EFile "%f"\, line %l\, characters %c-%m,%C%m,%Z%m',
         \ 'postprocess': function('neomake#makers#ft#javascript#FlowProcess')
@@ -88,6 +93,8 @@ function! neomake#makers#ft#javascript#FlowProcess(entry) abort
 endfunction
 
 function! neomake#makers#ft#javascript#xo() abort
+    " xo will automatically use local project version if available, so no need
+    " for neomake#utils#node_which
     return {
         \ 'args': ['--compact'],
         \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
