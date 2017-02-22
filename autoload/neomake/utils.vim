@@ -418,3 +418,22 @@ endfunction
 function! neomake#utils#path_sep() abort
     return neomake#utils#IsRunningWindows() ? ';' : ':'
 endfunction
+
+" Resolve project-local node tools following npm's node_modules resolution:
+" recurse upwards, checking node_modules/.bin/<command>, global fallback
+function! neomake#utils#node_which(cmd) abort
+    let l:cwd = fnamemodify(bufname('%'), ':p:h')
+    let l:root = fnamemodify('/', ':p')
+    let l:home = fnamemodify('~/', ':p')
+
+	while l:cwd != l:home && l:cwd != l:root
+        let l:execPath = resolve(l:cwd . '/node_modules/.bin/' . a:cmd)
+		if executable(l:execPath)
+			if executable(l:execPath)
+				return l:execPath
+			endif
+		endif
+		let l:cwd = resolve(l:cwd . '/..')
+	endwhile
+    return a:cmd
+endfunction
