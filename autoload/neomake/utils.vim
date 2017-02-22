@@ -428,11 +428,9 @@ function! neomake#utils#node_which(cmd) abort
 
 	while l:cwd != l:home && l:cwd != l:root
         let l:execPath = resolve(l:cwd . '/node_modules/.bin/' . a:cmd)
-		if executable(l:execPath)
-			if executable(l:execPath)
-				return l:execPath
-			endif
-		endif
+        if executable(l:execPath)
+            return l:execPath
+        endif
 		let l:cwd = resolve(l:cwd . '/..')
 	endwhile
     return a:cmd
